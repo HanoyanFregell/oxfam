@@ -6,7 +6,7 @@
         <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom.css" rel="stylesheet" type="text/css"/>
-        <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green.png"/>
+        <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
         <script type="text/javascript">
             window.onload = function () {
 
@@ -39,7 +39,7 @@
     <body>
         <div class="page_wrapper">
             <div class="container-fluid">
-                <img src="resources/Oxfam_Logo_White.png" id="symbol" width="500" height="500" />
+                <img src="resources/Oxfam_Logo_White-min.png" id="symbol" width="500" height="500" />
                 <form class="login" action="login.php" method="POST" >
                     <div class="row">
                         <div id="user_form" class="form-group ">

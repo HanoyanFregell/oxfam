@@ -57,6 +57,8 @@
                 </form>
             </div>
         </div>
+        <div class="footer">
+            </div>
     </body>
 
     <script src="js/bootstrap.js" type="text/javascript"></script>

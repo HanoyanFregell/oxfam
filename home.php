@@ -8,11 +8,33 @@
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
-        
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <?php
+        session_start();
+
+        $mysql = new mysqli("localhost", "root", "", "oxfam");
+
+
+        $new_orders = 0;
+        $pending_orders = 0;
+        $new_shipments = 0;
+        $pending_shipments = 0;
+
+
+        $q = $mysql->query("select * from orders");
+        if ($q->num_rows > 0) {
+            while ($row = $q->fetch_assoc()) {
+                if ($row['status'] == 0) {
+                    $new_orders += 1;
+                } else if ($row['status'] == 1) {
+                    $pending_orders += 1;
+                }
+            }
+        }
+        ?>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -41,20 +63,20 @@
         <div class="container-fluid">
             <div class="row text-center top-bar">
                 <div class="col-sm-2 top-notif new">
-                    <p class="top-notif-number">10</p>
+                    <p class="top-notif-number"><?php echo $new_orders; ?></p>
                     <p class="top-notif-desc">New Orders</p>
                 </div>
                 <div class="col-sm-2 top-notif pending" >
-                    <p class="top-notif-number">90</p>
+                    <p class="top-notif-number"><?php echo $pending_orders; ?></p>
                     <p class="top-notif-desc">Pending Orders</p>
 
                 </div>
                 <div class="col-sm-2 top-notif  new" >
-                    <p class="top-notif-number">20</p>
-                    <p class="top-notif-desc">New Shipments</p>
+                    <p class="top-notif-number"><?php echo $new_shipments; ?></p>
+                    <p class="top-notif-desc">Incoming Shipments</p>
                 </div>
                 <div class="col-sm-2 top-notif pending" >
-                    <p class="top-notif-number ">80</p>
+                    <p class="top-notif-number "><?php echo $pending_shipments; ?></p>
                     <p class="top-notif-desc">Pending Shipments</p>
                 </div>
             </div>
@@ -83,42 +105,83 @@
                         </div>
                     </div>
                     <div class="list-group" >
-                        <a href="#" class="list-group-item order-list-item" >
-                            <div class="row" >
-                                <div class="col-sm-2 profile-picture-wrapper" >
-                                    <img class="profile-picture center-block" src="resources/Oxfam_Circle_Green-min.png" id="symbol" />
-                                </div>
-                                <div class="col-sm-3" >
+                        <?php
+                        $name = "";
+                        $address = "";
+                        $status = "";
+                        $order_id = 0;
+
+                        $order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id limit 5;");
+                        if ($order_list_q->num_rows > 0) {
+                            while ($row = $order_list_q->fetch_assoc()) {
+                                $order_id = $row['id'];
+                                $name = $row['fname'] . " " . $row['lname'];
+                                $address = $row['address'];
+                                
+                                if($row['status'] == 0){
+                                    $status = "Not Processed";
+                                }else  if($row['status'] == 1){
+                                     $status = "In Transit";
+                                }else  if($row['status'] == 2){
+                                    $status = "Delivered";
+                                }else if($row['status'] == 3){
+                                    $status = "Return";
+                                }
+                                ?>
+                                <a href="#" class="list-group-item order-list-item" >
                                     <div class="row" >
-                                        <div class="col-sm-12 name">
-                                            Cedric Angelo Plasabas
+                                        <div class="col-sm-2 profile-picture-wrapper" >
+                                            <img class="profile-picture center-block" src="resources/Oxfam_Circle_Green-min.png" id="symbol" />
+                                        </div>
+                                        <div class="col-sm-3" >
+                                            <div class="row" >
+                                                <div class="col-sm-12 name">
+                                                    <?php echo $name; ?>
+                                                </div>
+                                            </div>
+                                            <div class="row" >
+                                                <div class="col-sm-12 description" >
+                                                    <?php echo $address; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 orders" >
+
+                                            <?php
+                                            $order_items_q = $mysql->query("select item.name, item.unit, order_items.quantity from item left join order_items on order_items.item_id = item.id where order_items.order_id = $order_id;");
+                                            if ($order_items_q->num_rows > 0) {
+                                                $item_name = "";
+                                                $item_quantity = "";
+                                                while ($row = $order_items_q->fetch_assoc()) {
+                                                    $item_name = $row['name'];
+                                                    $item_quantity = $row['quantity'] . " " . $row['unit'];
+                                                    if($row['quantity']>=2){
+                                                        $item_quantity = $item_quantity. "es";
+                                                    }
+                                                    ?>
+                                                    <div class="row text-center">
+                                                        <div class="col-sm-6">
+                                                            <?php echo $item_name; ?>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <?php echo $item_quantity; ?>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+
+                                        </div>
+                                        <div class="col-sm-3 text-center status">
+                                              <?php echo $status; ?>
                                         </div>
                                     </div>
-                                    <div class="row" >
-                                        <div class="col-sm-12 description" >
-                                            Block 22 Lot 7, Calle de Teresita, Fuente de Villa-Abrille, Tulip Drive, Juna Subdv, Brgy. Matina Crossing, Davao City
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4  orders" >
-                                    <div class="row  text-center">
-                                        <div class="col-sm-6">Orange</div>
-                                        <div class="col-sm-4">x2</div>
-                                    </div>
-                                    <div class="row  text-center">
-                                        <div class="col-sm-6">Banana</div>
-                                        <div class="col-sm-4">x5</div>
-                                    </div>
-                                    <div class="row  text-center">
-                                        <div class="col-sm-6">Orange</div>
-                                        <div class="col-sm-4">x3</div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 text-center status">
-                                    Not Processed
-                                </div>
-                            </div>
-                        </a>
+                                </a>
+                                <?php
+                            }
+                        }
+                        ?>
                     </div>
                     <button type="submit" name="add" class="btn btn-default more-order-list-item text-center center-block ">
                         SHOW MORE ORDERS
@@ -130,5 +193,5 @@
 
     </body>
 
- 
+
 </html>

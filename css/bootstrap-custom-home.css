@@ -3,16 +3,6 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 
-.navbar-default .navbar-nav > li > a {
-    padding-left:50px;
-    padding-right:50px;
-    font-weight: bold;
-}
-
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
-    color: #61a534 !important;
-}
 
 .search-bar-wrapper{
     margin: 0 50px 0 0;

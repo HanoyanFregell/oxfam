@@ -3,7 +3,7 @@
     <head>
         <title>Oxfam</title>
 
-        <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
@@ -40,8 +40,18 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <img src="resources/Oxfam_Circle_Green-min.png" id="symbol" width="50" height="50" />
+                    <img src="resources/Oxfam_Circle_Green-min.png" class="symbol" />
                 </div>
+
+                <ul class="nav navbar-nav ">
+                    <li class="active" ><a href="home.php">DASHBOARD</a></li>
+                    <li><a href="#" >ORDERS</a></li>
+                    <li><a href="#"  >INVENTORY</a></li> 
+                    <li><a href="#"  >SUPPLIERS</a></li> 
+                    <li><a href="#"  >REPORTS</a></li> 
+                </ul>
+
+
 
                 <form class="navbar-form navbar-right">
                     <div class="input-group has-feedback search-bar-wrapper">
@@ -50,17 +60,10 @@
                     </div>
                 </form>
 
-                <ul class="nav navbar-nav pull-left" style="padding-left: 100px; word-spacing: 100px;">
-                    <li class="active"><a href="#">DASHBOARD</a></li>
-                    <li><a href="#">ORDERS</a></li>
-                    <li><a href="#">INVENTORY</a></li> 
-                    <li><a href="#">SUPPLIERS</a></li> 
-                </ul>
-
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid" >
             <div class="row text-center top-bar">
                 <div class="col-sm-2 top-notif new">
                     <p class="top-notif-number"><?php echo $new_orders; ?></p>
@@ -84,16 +87,17 @@
 
         <div class="container-fluid"  >
             <div class="row order-list-wrapper" >
-                <div class="col-sm-6 order-list" >
+
+                <div class="col-sm-7 order-list" >
                     <div class="container-fluid order-list-top">
                         <div class="col-sm-5  ">
                             <div class="dropdown">
-                                <button class="btn btn-defualt dropdown-toggle" type="button" data-toggle="dropdown">All Orders
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Not Proccesed
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Not Proccesed</a></li>
                                     <li><a href="#">Processed</a></li>
                                     <li><a href="#">Delivered</a></li>
+                                    <li><a href="#">Returned</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -117,14 +121,14 @@
                                 $order_id = $row['id'];
                                 $name = $row['fname'] . " " . $row['lname'];
                                 $address = $row['address'];
-                                
-                                if($row['status'] == 0){
+
+                                if ($row['status'] == 0) {
                                     $status = "Not Processed";
-                                }else  if($row['status'] == 1){
-                                     $status = "In Transit";
-                                }else  if($row['status'] == 2){
+                                } else if ($row['status'] == 1) {
+                                    $status = "In Transit";
+                                } else if ($row['status'] == 2) {
                                     $status = "Delivered";
-                                }else if($row['status'] == 3){
+                                } else if ($row['status'] == 3) {
                                     $status = "Return";
                                 }
                                 ?>
@@ -155,8 +159,8 @@
                                                 while ($row = $order_items_q->fetch_assoc()) {
                                                     $item_name = $row['name'];
                                                     $item_quantity = $row['quantity'] . " " . $row['unit'];
-                                                    if($row['quantity']>=2){
-                                                        $item_quantity = $item_quantity. "es";
+                                                    if ($row['quantity'] >= 2) {
+                                                        $item_quantity = $item_quantity . "es";
                                                     }
                                                     ?>
                                                     <div class="row text-center">
@@ -174,7 +178,7 @@
 
                                         </div>
                                         <div class="col-sm-3 text-center status">
-                                              <?php echo $status; ?>
+                                            <?php echo $status; ?>
                                         </div>
                                     </div>
                                 </a>
@@ -186,6 +190,89 @@
                     <button type="submit" name="add" class="btn btn-default more-order-list-item text-center center-block ">
                         SHOW MORE ORDERS
                     </button>
+                </div>
+
+                <div class=" col-sm-3 col-sm-offset-1" >
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center" style="font-weight: bold; font-size: 16px;">Top Sellers</div>
+                            <div class="panel-body" >
+                                <div class="row" style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        1. Orange
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        60%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        2. Apple
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        20%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        3. Lemon
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        13%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        4. Lettuce
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        7%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center" style="font-weight: bold; font-size: 16px;">Top Customers</div>
+                            <div class="panel-body">
+                                <div class="row" style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        1. Orange
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        60%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        2. Apple
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        20%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        3. Lemon
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        13%
+                                    </div>
+                                </div>
+                                <div class="row " style="padding: 10px 0 10px 0;">
+                                    <div class="col-sm-6" style="padding: 0 50px 0 75px;">
+                                        4. Lettuce
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0 50px 0 75px;">
+                                        7%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

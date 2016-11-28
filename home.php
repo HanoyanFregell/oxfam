@@ -8,7 +8,11 @@
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
+        
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+        
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -61,7 +65,15 @@
                 <div class="col-sm-6 order-list" >
                     <div class="container-fluid order-list-top">
                         <div class="col-sm-5  ">
-                            Picture
+                            <div class="dropdown">
+                                <button class="btn btn-defualt dropdown-toggle" type="button" data-toggle="dropdown">All Orders
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Not Proccesed</a></li>
+                                    <li><a href="#">Processed</a></li>
+                                    <li><a href="#">Delivered</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="col-sm-4 text-center">
                             Orders
@@ -118,7 +130,5 @@
 
     </body>
 
-    <script src="js/bootstrap.js" type="text/javascript"></script>
-    <script src="js/jquery-3.0.0.min.js" type="text/javascript"></script>
-
+ 
 </html>

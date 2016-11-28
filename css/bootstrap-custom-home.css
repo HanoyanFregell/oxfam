@@ -72,13 +72,19 @@ body{
 }
 
 .order-list-top{
-    margin: 0 0 25px 0;
     font-weight: bold;
     color: #61a534;
 }
 
-a.order-list-item:hover{
-    background-color: #61a534;
+
+
+.order-list-item:hover{
+    background-color: #61a534 !important;
+    color: white !important;
+}
+
+
+.order-list-item:hover .name{
     color: white !important;
 }
 
@@ -103,8 +109,6 @@ a.order-list-item:hover{
     height: 25%;
     overflow:hidden;
 }
-
-
 
 .order-list-item .orders{
     height: 100%;

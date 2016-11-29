@@ -83,6 +83,9 @@ body{
     margin: 0 30px 0 30px;
 }
 
+.orders-title{
+    color: red !important;
+}
 .order-list-item{
     margin: 10px 0 10px 0;
     height: 100px;

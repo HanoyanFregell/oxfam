@@ -30,8 +30,6 @@
                 } else if (tech === "2") {
                     document.getElementById("pass_form").className += " has-error has-feedback";
                 }
-
-
             };
         </script>
     </head>
@@ -44,13 +42,11 @@
                     <div class="row">
                         <div id="user_form" class="form-group ">
                             <input type="text" class="form-control" name="uname" placeholder="Userame"/>
-                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div id="pass_form" class="form-group">
-                            <input  type="password" class="form-control" name="pword" placeholder="Password"/>
-                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <input  type="password" class="form-control" name="pword" placeholder="Password"/>      
                         </div>
                     </div>
                     <button type="submit" name="login" class="btn btn-default  login_button">LOGIN</button>

@@ -45,10 +45,10 @@
 
                 <ul class="nav navbar-nav ">
                     <li class="active" ><a href="home.php">DASHBOARD</a></li>
-                    <li><a href="#" >ORDERS</a></li>
-                    <li><a href="#"  >INVENTORY</a></li> 
-                    <li><a href="#"  >SUPPLIERS</a></li> 
-                    <li><a href="#"  >REPORTS</a></li> 
+                    <li><a href="orders.php" >ORDERS</a></li>
+                    <li><a href="inventory.php"  >INVENTORY</a></li> 
+                    <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
+                    <li><a href="reports.php"  >REPORTS</a></li> 
                 </ul>
 
 

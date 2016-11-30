@@ -12,6 +12,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
         <?php
         session_start();
 
@@ -88,7 +89,7 @@
         <div class="container-fluid"  >
             <div class="row order-list-wrapper" >
 
-                <div class="col-sm-7 order-list" >
+                <div class="col-sm-7" >
                     <div class="container-fluid order-list-top">
                         <div class="col-sm-5  ">
                             <div class="dropdown">
@@ -108,14 +109,14 @@
                             Status
                         </div>
                     </div>
-                    <div class="list-group" >
+                    <div class="list-group order-list" id="order-list">
                         <?php
                         $name = "";
                         $address = "";
                         $status = "";
                         $order_id = 0;
 
-                        $order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id limit 5;");
+                        $order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id where orders.status = 0 limit 5;");
                         if ($order_list_q->num_rows > 0) {
                             while ($row = $order_list_q->fetch_assoc()) {
                                 $order_id = $row['id'];
@@ -132,7 +133,7 @@
                                     $status = "Return";
                                 }
                                 ?>
-                                <a href="#" class="list-group-item order-list-item" >
+                                <a href="#" class="list-group-item order-list-item"  >
                                     <div class="row" >
                                         <div class="col-sm-2 profile-picture-wrapper" >
                                             <img class="profile-picture center-block" src="resources/Oxfam_Circle_Green-min.png" id="symbol" />
@@ -187,9 +188,14 @@
                         }
                         ?>
                     </div>
-                    <button type="submit" name="add" class="btn btn-default more-order-list-item text-center center-block ">
-                        SHOW MORE ORDERS
-                    </button>
+                    <div class="container-fluid " style="padding-top: 30px;">
+                        <button type="submit" id="show-more" class="btn btn-default more-order-list-item text-center  center-block">
+                            SHOW MORE ORDERS
+                        </button>
+                        <p class="lead text-muted text-center" id="no-more">
+                            NO MORE ORDERS TO SHOW
+                        </p>
+                    </div>
                 </div>
 
                 <div class=" col-sm-3 col-sm-offset-1" >
@@ -279,6 +285,64 @@
 
 
     </body>
+
+    <script>
+
+        window.onload = function () {
+            $("#no-more").hide();
+            checkorders();
+        };
+
+        function checkorders() {
+            var max = document.getElementById("order-list").getElementsByTagName("a").length;
+            $.ajax({
+                type: "POST",
+                url: "check-orders.php",
+                data: {max: max},
+                dataType: "json",
+                success: function (response) {
+                    if(response === 0){
+                        $("#show-more").hide();
+                        $("#no-more").show();
+                    }
+                },
+                error: function (thrownError) {
+                    alert(thrownError);
+                }
+            });
+            
+        }
+
+        document.getElementById("show-more").onclick = function () {
+            var max = document.getElementById("order-list").getElementsByTagName("a").length;
+            max += 1;
+            var orders = '';
+            $.ajax({
+                type: "POST",
+                url: "more-orders.php",
+                data: {max: max},
+                dataType: "json",
+                success: function (response) {
+                    orders += response;
+                    $('.order-list').append(orders);
+                    $('.order-list').find(".list-group-item").slideDown("fast");
+                    checkorders();
+                },
+                error: function (thrownError) {
+                    alert(thrownError);
+                }
+            });
+
+
+
+        };
+
+
+
+
+
+    </script>
+
 
 
 </html>

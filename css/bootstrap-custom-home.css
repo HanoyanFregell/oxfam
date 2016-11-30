@@ -1,6 +1,7 @@
 body{
     font-family: 'Open Sans', serif;
     background-color: #f9f9f9;
+    
 }
 
 .navbar-default .navbar-nav > li >a:hover,
@@ -102,6 +103,16 @@ body{
     color: white !important;
 }
 
+ul.pagination > li > a {
+    color: #61a534;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+ul.pagination > li.active > a {
+    color: white;
+    background-color: #61a534;
+}
 
 .order-list-item:hover .name{
     color: white !important;

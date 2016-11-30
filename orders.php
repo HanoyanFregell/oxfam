@@ -6,11 +6,15 @@
 
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css" rel="stylesheet" type="text/css"/>
+        
         <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
+        
 
         <?php
         session_start();
@@ -28,6 +32,7 @@
                 <ul class="nav navbar-nav ">
                     <li ><a href="home.php">DASHBOARD</a></li>
                     <li  class="active"><a href="orders.php" >ORDERS</a></li>
+                     <li ><a href="store.php"  >STORE</a></li> 
                     <li ><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li ><a href="reports.php"  >REPORTS</a></li> 
@@ -45,7 +50,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid text-center " style="padding: 50px 0 20px 0; font-size: 45px;font-weight: bold;">
+        <div class="container-fluid text-center " style="padding-top:50px; font-size: 45px;font-weight: bold;">
             <div class="row">
                 ORDER LIST
             </div>
@@ -154,7 +159,34 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="container-fluid text-center" >
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
+
 
 
     </body>

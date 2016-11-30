@@ -6,11 +6,13 @@
 
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 
 
         <?php
@@ -37,7 +39,7 @@
         }
         ?>
     </head>
-    <body>
+    <body >
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -47,6 +49,7 @@
                 <ul class="nav navbar-nav ">
                     <li class="active" ><a href="home.php">DASHBOARD</a></li>
                     <li><a href="orders.php" >ORDERS</a></li>
+                     <li ><a href="store.php"  >STORE</a></li> 
                     <li><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 

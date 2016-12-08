@@ -23,8 +23,7 @@
 
         $new_orders = 0;
         $pending_orders = 0;
-        $new_shipments = 0;
-        $pending_shipments = 0;
+        $returned_orders = 0;
 
 
         $q = $mysql->query("select * from orders");
@@ -34,6 +33,8 @@
                     $new_orders += 1;
                 } else if ($row['status'] == 1) {
                     $pending_orders += 1;
+                }else if ($row['status'] == 2) {
+                    $returned_orders += 1;
                 }
             }
         }
@@ -49,7 +50,6 @@
                 <ul class="nav navbar-nav ">
                     <li class="active" ><a href="home.php">DASHBOARD</a></li>
                     <li><a href="orders.php" >ORDERS</a></li>
-                     <li ><a href="store.php"  >STORE</a></li> 
                     <li><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 
@@ -79,12 +79,8 @@
 
                 </div>
                 <div class="col-sm-2 top-notif  new" >
-                    <p class="top-notif-number"><?php echo $new_shipments; ?></p>
-                    <p class="top-notif-desc">Incoming Shipments</p>
-                </div>
-                <div class="col-sm-2 top-notif pending" >
-                    <p class="top-notif-number "><?php echo $pending_shipments; ?></p>
-                    <p class="top-notif-desc">Pending Shipments</p>
+                    <p class="top-notif-number"><?php echo $returned_orders; ?></p>
+                    <p class="top-notif-desc">Returned Orders</p>
                 </div>
             </div>
         </div>
@@ -335,9 +331,6 @@
                     alert(thrownError);
                 }
             });
-
-
-
         };
 
 

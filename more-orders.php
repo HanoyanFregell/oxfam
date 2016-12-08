@@ -5,6 +5,7 @@ session_start();
 $mysql = new mysqli("localhost", "root", "", "oxfam");
 
 $max = $_POST['max'];
+$limit = $_POST['limit'];
 $name = "";
 $address = "";
 $status = "";
@@ -12,7 +13,7 @@ $order_id = 0;
 
 $orders = '';
 
-$more_order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id where orders.status = 0;");
+$more_order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id where orders.status = 0 limit $limit;");
 if ($more_order_list_q->num_rows > 0) {
     $count = 0;
     while ($row = $more_order_list_q->fetch_assoc()) {

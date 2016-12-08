@@ -12,7 +12,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 
 
         <?php
@@ -33,7 +33,7 @@
                     $new_orders += 1;
                 } else if ($row['status'] == 1) {
                     $pending_orders += 1;
-                }else if ($row['status'] == 2) {
+                } else if ($row['status'] == 2) {
                     $returned_orders += 1;
                 }
             }
@@ -187,11 +187,11 @@
                         }
                         ?>
                     </div>
-                    <div class="container-fluid " style="padding-top: 30px;">
-                        <button type="submit" id="show-more" class="btn btn-default more-order-list-item text-center  center-block">
+                    <div class="container-fluid text-center  center-block" style="padding: 50px 0 50px 0;">
+                        <button type="submit" id="show-more" class="btn btn-default more-order-list-item ">
                             SHOW MORE ORDERS
                         </button>
-                        <p class="lead text-muted text-center" id="no-more">
+                        <p class="lead text-muted" id="no-more">
                             NO MORE ORDERS TO SHOW
                         </p>
                     </div>
@@ -294,13 +294,14 @@
 
         function checkorders() {
             var max = document.getElementById("order-list").getElementsByTagName("a").length;
+
             $.ajax({
                 type: "POST",
                 url: "check-orders.php",
                 data: {max: max},
                 dataType: "json",
                 success: function (response) {
-                    if(response === 0){
+                    if (response === 0) {
                         $("#show-more").hide();
                         $("#no-more").show();
                     }
@@ -309,17 +310,18 @@
                     alert(thrownError);
                 }
             });
-            
+
         }
 
         document.getElementById("show-more").onclick = function () {
             var max = document.getElementById("order-list").getElementsByTagName("a").length;
-            max += 1;
+            var multiplier = Math.round(max / 5) + 1;
+            var limit = multiplier * 5;
             var orders = '';
             $.ajax({
                 type: "POST",
                 url: "more-orders.php",
-                data: {max: max},
+                data: {max: max, limit: limit},
                 dataType: "json",
                 success: function (response) {
                     orders += response;

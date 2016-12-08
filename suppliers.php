@@ -58,7 +58,8 @@
 
 
         <div class="container-fluid" style="padding: 50px 100px 0 100px;">
-            <button class="btn btn-default" type="button" data-toggle="modal" data-target="#add_supplier_modal"> <span class="glyphicon glyphicon-plus"></span> NEW
+            <button class=" btn btn-default"  type="button" data-toggle="modal" data-target="#add_supplier_modal"> 
+                <span class="glyphicon glyphicon-plus"></span> NEW
             </button>
             <div class="input-group has-feedback search-bar-wrapper pull-right">
                 <input type="text" class="form-control search-bar" placeholder="Find Supplier">
@@ -67,8 +68,8 @@
         </div>
 
 
-        <div class="container-fluid " id="supplier-list" style=" padding-top: 100px; margin: 0 100px 0 100px;">
-            <div class="row">
+        <div class="container-fluid" id="supplier-list" style=" padding-top: 100px; margin: 0 100px 0 100px;">
+            <div class="row ">
                 <?php
                 $supplier_id = 0;
                 $company = "";
@@ -98,7 +99,7 @@
                         <div class="col-sm-4">
                             <div class="panel panel-default supplier-list-item">
                                 <div class="panel-heading " >
-                                    <button type="button" class="close" data-toggle="modal" data-target="#delete_supplier_modal" >&times;</button>
+                                    <button type="button" class="close delete_supplier_btn" data-id="<?php echo $supplier_id; ?>" data-toggle="modal" data-target="#delete_supplier_modal" >&times;</button>
                                     <div class="row" style="padding: 50px 0 50px 0;">
                                         <img src="http://mdbootstrap.com/images/ecommerce/products/shoes.jpg" alt="" class="img-fluid center-block">
                                     </div>
@@ -144,6 +145,7 @@
                                     </div>
                                     <div class="row" style="padding: 0 30px 0 30px;">
                                         <?php
+                                        $item_id = 0;
                                         $item_name = "";
                                         $item_desc = "";
                                         $item_dimensions = "";
@@ -165,6 +167,7 @@
                                                 <tbody>
                                                     <?php
                                                     while ($row = $item_check_q->fetch_assoc()) {
+                                                        $item_id = $row['id'];
                                                         $item_name = $row['name'];
                                                         $item_desc = $row['description'];
                                                         $item_dimensions = $row['dimensions'];
@@ -176,7 +179,7 @@
                                                             <td class=" text-center"><?php echo $item_dimensions; ?></td>
                                                             <td class=" text-center"><?php echo $item_unit; ?></td>
                                                             <td class=" text-center">
-                                                                <button type="button" class="close" data-toggle="modal" data-target="#delete_item_modal" >&times;</button>                                              
+                                                                <button type="button" class="delete_item_btn close" data-id="<?php echo $item_id; ?>" data-toggle="modal" data-target="#delete_item_modal" >&times;</button>                                              
                                                             </td>
                                                         </tr>
                                                         <?php
@@ -200,7 +203,7 @@
                                 </div>
                                 <div class="panel-footer ">
                                     <div class="container-fluid text-center">
-                                        <button class="btn btn-default  " type="button"  data-toggle="modal" data-target="#add_item_modal"> 
+                                        <button class="add_item_btn btn btn-default" data-id="<?php echo $supplier_id; ?>" type="button"  data-toggle="modal" data-target="#add_item_modal"> 
                                             <span class="glyphicon glyphicon-plus"></span> ADD PRODUCE
                                         </button>
                                     </div>
@@ -214,6 +217,7 @@
                 ?>
             </div>
         </div>
+        
 
         <div class="container-fluid text-center  center-block" style="padding: 50px 0 50px 0;">
             <button type="submit" id="show-more" class="btn btn-default more-order-list-item ">
@@ -224,22 +228,25 @@
             </p>
         </div>
 
+       
+
         <div class="modal fade" id="add_supplier_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
                 <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Supplier</h4>
-                    </div>
-                    <div class="modal-body"  >
-                        <form method="POST" action="add_supplier.php"  style="margin: 0 50px 0 50px ;">
+                <form method="POST" id="add_supplier_form" action="add_supplier.php"  >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add Supplier</h4>
+                        </div>
+                        <div class="modal-body" style="margin: 0 50px 0 50px ;"  >
+
                             <div class="row" >
                                 <input type="text" class="form-control" name="company_name" placeholder="Company Name"/>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="fname" placeholder="First Name"/>
+                                    <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name"/>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="lname" placeholder="Last Name"/>
@@ -256,13 +263,14 @@
                             <div class="row">
                                 <input type="textbox" class="form-control" name="address" placeholder="Address"/>
                             </div>
-                        </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default" id="add_supplier" name="add_supplier">Add</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" name="add_supplier">Add</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -270,84 +278,110 @@
         <div class="modal fade" id="delete_supplier_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
                 <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Delete Supplier</h4>
-                    </div>
-                    <div class="modal-body text-center"  >
-                        <form method="POST" action="delete_supplier.php"  style="margin: 0 50px 0 50px ;">
+                <form method="POST" id="delete_supplier_form" action="delete_supplier.php"  style="margin: 0 50px 0 50px ;">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Supplier</h4>
+                        </div>
+                        <div class="modal-body text-center"  >
+
+                            <input type="hidden" class="form-control" id="id"  name="id" />
                             <p>Are you sure you want to remove supplier?</p>
-                            <button type="button" class="btn btn-danger " name="delete_supplier">Delete</button>
-                        </form>
+                            <p class="text-danger">WARNING: All of its produce and stock will be removed also</p>
+                            <button type="submit" class="btn btn-danger " id="delete_supplier" name="delete_supplier">Delete</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+                </form>
+
             </div>
         </div>
 
         <div class="modal fade" id="add_item_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
                 <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Supplier</h4>
-                    </div>
-                    <div class="modal-body text-center"  >
-                        <form method="POST" action="add_item.php"  style="margin: 0 50px 0 50px ;">
+                <form method="POST" id="add_item_form" action="add_item.php" >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add Produce</h4>
+                        </div>
+                        <div class="modal-body text-center"  style="margin: 0 50px 0 50px ;" >
+                            <input type="hidden" class="form-control" id="id"  name="id" />
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="name" placeholder="Name"/>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"  name="name" placeholder="Name"/>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">₱</span>
+                                        <input type="number" class="form-control" name="price" placeholder="Price"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="dimension" placeholder="Dimensions"/>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="unit" placeholder="Unit"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">      
+                                <div class="col-xs-12">       
                                     <input type="text" class="form-control" name="desc" placeholder="Description"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="dimention" placeholder="Dimentions"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="Unit" placeholder="Unit"/>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default" id="add_item" name="add_item">Add</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" name="add_item">Add</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+                </form>
+
             </div>
         </div>
 
         <div class="modal fade" id="delete_item_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
                 <!-- Modal content-->
-                <div class="modal-content" >
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Delete Item</h4>
-                    </div>
-                    <div class="modal-body text-center"  >
-                        <form method="POST" action="delete_item.php"  style="margin: 0 50px 0 50px ;">
+                <form method="POST" id="delete_item_form" action="delete_item.php" >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Item</h4>
+                        </div>
+                        <div class="modal-body text-center"  style="margin: 0 50px 0 50px ;" >
+
+                            <input type="hidden" class="form-control" id="id"  name="id" />
                             <p>Are you sure you want to remove produce?</p>
-                            <button type="button" class="btn btn-danger " name="delete_supplier">Delete</button>
-                        </form>
+                            <p class="text-danger">WARNING: All of its stock will be removed also</p>
+                            <button type="submit" class="btn btn-danger " id="delete_item" name="delete_supplier">Delete</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
 
+
         <script>
 
+
             window.onload = function () {
+
                 $("#no-more").hide();
                 checkorders();
             };
@@ -372,25 +406,148 @@
 
             }
             document.getElementById("show-more").onclick = function () {
-                var max = document.getElementById("order-list").getElementsByTagName("a").length;
+                var max = document.getElementById("supplier-list").getElementsByClassName("supplier-list-item").length;
+                var multiplier = Math.round(max / 3) + 1;
+                var limit = multiplier * 3;
                 max += 1;
-                var orders = '';
+                var suppliers = '';
                 $.ajax({
                     type: "POST",
                     url: "more-suppliers.php",
-                    data: {max: max},
+                    data: {max: max, limit: limit},
                     dataType: "json",
                     success: function (response) {
-                        orders += response;
-                        $('.supplier-list').append(orders);
-                        $('.supplier-list').find(".supplier-list-item").slideDown("fast");
+                        suppliers += response;
+                        $('#supplier-list').append(suppliers);
+                        $('#supplier-list').find(".supplier-list-item-wrapper").slideDown("slow");
                         checkorders();
                     },
-                    error: function (thrownError) {
-                        alert(thrownError);
+                    error: function (xhr) {
+                        alert(xhr.responseText);
                     }
                 });
             };
+
+            $("#add_supplier_form").on("submit", function (e) {
+
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (data) {
+                        $('#add_supplier_form .modal-header .modal-title').html("");
+                        $('#add_supplier_form .modal-body').html(data);
+                        $("#add_supplier").remove();
+
+                    },
+                    error: function (status, error) {
+                        console.log(status + ": " + error);
+                    }
+                });
+                e.preventDefault();
+            });
+
+            $('#add_supplier_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+            $(document).on("click", ".add_item_btn", function () {
+                var id = $(this).data('id');
+                $(".modal-body #id").val(id);
+            });
+
+            $("#add_item_form").on("submit", function (e) {
+
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (data) {
+                        $('#add_item_form .modal-header .modal-title').html("");
+                        $('#add_item_form .modal-body').html(data);
+                        $("#add_item").remove();
+
+                    },
+                    error: function (status, error) {
+                        console.log(status + ": " + error);
+                    }
+                });
+                e.preventDefault();
+            });
+
+            $('#add_item_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+            $(document).on("click", ".delete_supplier_btn", function () {
+                var id = $(this).data('id');
+                $(".modal-body #id").val(id);
+            });
+
+            $("#delete_supplier_form").on("submit", function (e) {
+
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (data) {
+                        $('#delete_supplier_form .modal-header .modal-title').html("");
+                        $('#delete_supplier_form .modal-body').html(data);
+                        $("#delete_supplier").remove();
+
+                    },
+                    error: function (status, error) {
+                        console.log(status + ": " + error);
+                    }
+                });
+                e.preventDefault();
+            });
+
+            $('#delete_supplier_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+            $(document).on("click", ".delete_item_btn", function () {
+                var id = $(this).data('id');
+                $(".modal-body #id").val(id);
+            });
+
+            $("#delete_item_form").on("submit", function (e) {
+
+                var postData = $(this).serializeArray();
+                var formURL = $(this).attr("action");
+
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (data) {
+                        $('#delete_item_form .modal-header .modal-title').html("");
+                        $('#delete_item_form .modal-body').html(data);
+                        $("#delete_item").remove();
+
+                    },
+                    error: function (status, error) {
+                        console.log(status + ": " + error);
+                    }
+                });
+                e.preventDefault();
+            });
+
+            $('#delete_item_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+
 
 
 

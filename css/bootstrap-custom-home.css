@@ -4,6 +4,15 @@ body{
     
 }
 
+.input-group-addon
+{
+    background-color:#FFF;
+}
+.input-group .input-group-addon + .form-control
+{
+    border-left:none;
+}
+
 .navbar-default .navbar-nav > li >a:hover,
 .navbar-default .navbar-nav > li >a:focus{
     color: white;

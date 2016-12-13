@@ -49,9 +49,9 @@
 
                 <ul class="nav navbar-nav ">
                     <li class="active" ><a href="home.php">DASHBOARD</a></li>
-                    <li><a href="orders.php" >ORDERS</a></li>
+             <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
                     <li><a href="inventory.php"  >INVENTORY</a></li> 
-                    <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
+                   <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 
                 </ul>
 
@@ -132,7 +132,7 @@
                                     $status = "Return";
                                 }
                                 ?>
-                                <a href="#" class="list-group-item order-list-item"  >
+                                <a href="#" class="list-group-item order-list-item" data-id="<?php echo $order_id; ?>" data-toggle="modal" data-target="#process_order_modal">
                                     <div class="row" >
                                         <div class="col-sm-2 profile-picture-wrapper" >
                                             <img class="profile-picture center-block" src="resources/Oxfam_Circle_Green-min.png" id="symbol" />
@@ -244,7 +244,7 @@
                             <div class="panel-body">
                                 <div class="row" style="padding: 10px 0 10px 0;">
                                     <div class="col-sm-6" style="padding: 0 50px 0 75px;">
-                                        1. Orange
+                                        1. Oxfam
                                     </div>
                                     <div class="col-sm-4" style="padding: 0 50px 0 75px;">
                                         60%
@@ -252,7 +252,7 @@
                                 </div>
                                 <div class="row " style="padding: 10px 0 10px 0;">
                                     <div class="col-sm-6" style="padding: 0 50px 0 75px;">
-                                        2. Apple
+                                        2. Oxfam
                                     </div>
                                     <div class="col-sm-4" style="padding: 0 50px 0 75px;">
                                         20%
@@ -260,7 +260,7 @@
                                 </div>
                                 <div class="row " style="padding: 10px 0 10px 0;">
                                     <div class="col-sm-6" style="padding: 0 50px 0 75px;">
-                                        3. Lemon
+                                        3. Oxfam
                                     </div>
                                     <div class="col-sm-4" style="padding: 0 50px 0 75px;">
                                         13%
@@ -268,7 +268,7 @@
                                 </div>
                                 <div class="row " style="padding: 10px 0 10px 0;">
                                     <div class="col-sm-6" style="padding: 0 50px 0 75px;">
-                                        4. Lettuce
+                                        4. Oxfam
                                     </div>
                                     <div class="col-sm-4" style="padding: 0 50px 0 75px;">
                                         7%
@@ -279,6 +279,30 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="process_order_modal" role="dialog" style="padding-top: 15%;">
+            <div class="modal-dialog" >
+                <!-- Modal content-->
+                <form method="POST" id="process_order_form" action="process_order.php" >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Deliver Order</h4>
+                        </div>
+                        <div class="modal-body text-center"  style="margin: 0 50px 0 50px ;" >
+                            <input type="hidden" class="form-control" id="id"  name="id" />
+                            <p>Deliver Order?</p>
+                            <button type="submit" class="btn btn-default process_order " id="process_order" name="deliver">Deliver</button>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -336,7 +360,35 @@
         };
 
 
+        $(document).on("click", ".order-list-item", function () {
+            var id = $(this).data('id');
+            $(".modal-body #id").val(id);
+        });
 
+        $("#process_order_form").on("submit", function (e) {
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
+
+            $.ajax({
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (data) {
+                    $('#process_order_form .modal-header .modal-title').html("");
+                    $('#process_order_form .modal-body').html(data);
+                    $("#process_order").remove();
+
+                },
+                error: function (status, error) {
+                    console.log(status + ": " + error);
+                }
+            });
+            e.preventDefault();
+        });
+
+        $('#process_order_modal').on('hidden.bs.modal', function () {
+            location.reload();
+        });
 
 
     </script>

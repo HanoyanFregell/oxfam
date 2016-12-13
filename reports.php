@@ -30,7 +30,7 @@
 
                 <ul class="nav navbar-nav ">
                     <li ><a href="home.php">DASHBOARD</a></li>
-                    <li><a href="orders.php" >ORDERS</a></li>
+                     <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
                     <li ><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li  class="active"><a href="reports.php"  >REPORTS</a></li> 

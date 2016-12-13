@@ -1,3 +1,4 @@
+<?php ?>
 <html>
 
     <head>
@@ -29,7 +30,7 @@
 
                 <ul class="nav navbar-nav ">
                     <li ><a href="home.php">DASHBOARD</a></li>
-                    <li  ><a href="orders.php" >ORDERS</a></li>
+                   <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
                     <li ><a href="inventory.php"  >INVENTORY</a></li> 
                     <li class="active"><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li ><a href="reports.php"  >REPORTS</a></li> 
@@ -109,7 +110,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" style="padding-bottom: 15px;">
+                                    <div class="row" style="padding: 0 0 15px 40px ;">
                                         <div class="col-sm-2" style="font-weight: bold">
                                             Owner:
                                         </div>
@@ -122,7 +123,7 @@
                                         <div class="col-sm-3">
                                             <?php echo $age; ?>
                                         </div>                            </div>
-                                    <div class="row" style="padding-bottom: 15px;">
+                                    <div class="row" style="padding: 0 0 15px 40px ;">
                                         <div class="col-sm-2" style="font-weight: bold">
                                             Address:
                                         </div>
@@ -217,7 +218,7 @@
                 ?>
             </div>
         </div>
-        
+
 
         <div class="container-fluid text-center  center-block" style="padding: 50px 0 50px 0;">
             <button type="submit" id="show-more" class="btn btn-default more-order-list-item ">
@@ -228,7 +229,7 @@
             </p>
         </div>
 
-       
+
 
         <div class="modal fade" id="add_supplier_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
@@ -377,6 +378,9 @@
         </div>
 
 
+
+
+
         <script>
 
 
@@ -427,6 +431,8 @@
                     }
                 });
             };
+
+
 
             $("#add_supplier_form").on("submit", function (e) {
 

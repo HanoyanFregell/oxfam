@@ -29,7 +29,7 @@
 
                 <ul class="nav navbar-nav ">
                     <li ><a href="home.php">DASHBOARD</a></li>
-                    <li><a href="orders.php" >ORDERS</a></li>
+                     <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
                     <li  class="active"><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 
@@ -116,7 +116,7 @@
                                     <input type="number" class="form-control text-center " value="0" id="new-stock-count<?php echo $item_id; ?>" />
                                 </td>
                                 <td class=" col-sm-1 center-block text-center">
-                                    <button class=" btn btn-default add-stock"  type="button" data-id="<?php echo $item_id; ?>" data-stock="<?php echo  $inventory_quantity; ?>" data-toggle="modal" data-target="#add_stock_modal"> 
+                                    <button class=" btn btn-default add-stock"  type="button" data-id="<?php echo $item_id; ?>" data-stock="<?php echo $inventory_quantity; ?>" data-toggle="modal" data-target="#add_stock_modal"> 
                                         <span class="glyphicon glyphicon-plus"></span> Add
                                     </button>
                                 </td>
@@ -184,37 +184,38 @@
 
     <script>
 
+     
         $(document).on("click", ".add-stock", function () {
             var id = $(this).data('id');
-             var stock = $(this).data('stock');
+            var stock = $(this).data('stock');
             var quantity = document.getElementById("new-stock-count" + id).value;
             $(".modal-body #id").val(id);
             $(".modal-body #stock").val(stock);
             $(".modal-body #quantity").val(quantity);
-            $(".modal-body").append("<p class='text-warning'>Additional Stock: "+quantity+"<p>");
+            $(".modal-body").append("<p class='text-warning'>Additional Stock: " + quantity + "<p>");
         });
-        
+
         $("#add_stock_form").on("submit", function (e) {
 
-                var postData = $(this).serializeArray();
-                var formURL = $(this).attr("action");
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
 
-                $.ajax({
-                    url: formURL,
-                    type: "POST",
-                    data: postData,
-                    success: function (data) {
-                        $('#add_stock_form .modal-header .modal-title').html("");
-                        $('#add_stock_form .modal-body').html(data);
-                        $("#add_stock").remove();
+            $.ajax({
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (data) {
+                    $('#add_stock_form .modal-header .modal-title').html("");
+                    $('#add_stock_form .modal-body').html(data);
+                    $("#add_stock").remove();
 
-                    },
-                    error: function (status, error) {
-                        console.log(status + ": " + error);
-                    }
-                });
-                e.preventDefault();
+                },
+                error: function (status, error) {
+                    console.log(status + ": " + error);
+                }
             });
+            e.preventDefault();
+        });
 
         $('#add_stock_modal').on('hidden.bs.modal', function () {
             location.reload();

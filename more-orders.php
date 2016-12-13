@@ -33,7 +33,7 @@ if ($more_order_list_q->num_rows > 0) {
                 $status = "Return";
             }
 
-            $orders .= '<a href="#"  style="display: none;" class="list-group-item order-list-item"  >' .
+            $orders .= '<a href="#"  style="display: none;" class="list-group-item order-list-item"  data-id="' .$order_id. '" data-toggle="modal" data-target="#process_order_modal">' .
                     '<div class="row" >' .
                     '<div class="col-sm-2 profile-picture-wrapper" >' .
                     '<img class="profile-picture center-block" src="resources/Oxfam_Circle_Green-min.png" id="symbol" />' .

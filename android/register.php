@@ -25,13 +25,7 @@ if ($customer_q->num_rows == 0) {
     mysqli_query($mysql, $user_query)
             or die(mysqli_error($mysql));
     
-    $user_id_q = $mysql->query("select id from user where user = '$email'");
-
-    if ($user_id_q->num_rows > 0) {
-        while ($row = $user_id_q->fetch_assoc()) {
-            $user_id =  $row['id'];
-        }
-    }
+    $user_id = mysqli_insert_id($mysql);
    
    $customer_query = "insert into customer(user_id, email,fname,lname,age,sex,address) values($user_id,'$email','$fname','$lname',$age,$sex,'');";
 

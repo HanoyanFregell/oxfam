@@ -2,8 +2,8 @@
 
 session_start();
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
-
+ require_once 'config.php';
+ 
 $supplier_id = $_POST['id'];
 $name = $_POST['name'];
 $price = $_POST['price'];

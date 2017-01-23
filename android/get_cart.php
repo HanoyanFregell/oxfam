@@ -1,6 +1,6 @@
 <?php
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
 $cart_list = [];
 $user_id = filter_input(INPUT_GET, "user_id");

@@ -2,7 +2,7 @@
 
 session_start();
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+ require_once 'config.php';
 
 $max = $_POST['max'];
 

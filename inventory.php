@@ -3,43 +3,43 @@
     <head>
         <title>Oxfam</title>
 
-
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
-         <link href="css2/mdb.min.css" rel="stylesheet" type="text/css"/>
-        <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
-  
+        <link href="css/mdb.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.0.0.min.js" type="text/javascript"></script>   
+        <script src="js/mdb.min.js" type="text/javascript"></script>
+        <link rel="shortcut icon" type="image/png" href="images/women's-market-logo.png"/>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
 
-       <script src="js2/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js2/jquery.min.js" type="text/javascript"></script>
-        <script src="js2/mdb.min.js" type="text/javascript"></script>
         <?php
         session_start();
-
-        $mysql = new mysqli("localhost", "root", "", "oxfam");
+        if (!isset($_SESSION['id'])) {
+            header("Location: index.php");
+        }
+        require_once 'config.php';
         ?>
     </head>
     <body>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <img src="resources/Oxfam_Circle_Green-min.png" class="symbol" />
+                    <img src="images/women's-market-logo.png" class="symbol" />
                 </div>
 
                 <ul class="nav navbar-nav ">
                     <li ><a href="home.php">DASHBOARD</a></li>
-                     <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
+                    <li><a href="orders.php" >ORDERS</a></li>   
                     <li  class="active"><a href="inventory.php"  >INVENTORY</a></li> 
                     <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 
                 </ul>
 
-                <form class="navbar-form navbar-right">
-                    <div class="input-group has-feedback search-bar-wrapper">
-                        <input type="text" class="form-control search-bar" placeholder="Search">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="profile.php"><span class="glyphicon glyphicon-user"></span></a></li>
+                    <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span></a></a></li>
+                </ul>
+
 
             </div>
         </nav>
@@ -81,7 +81,7 @@
                     $item_unit = "";
                     $inventory_quantity = 0;
 
-                    $item_list_q = $mysql->query("select item.id,supplier.company_name,item.name,item.price,item.description,item.dimensions,item.unit, inventory.quantity from item left join supplier on item.supplier_id = supplier.id left join inventory on inventory.item_id = item.id limit 5");
+                    $item_list_q = $mysql->query("select item.id,supplier.company_name,item.name,item.price,item.description,item.dimensions,item.unit, inventory.quantity from item left join supplier on item.supplier_id = supplier.id left join inventory on inventory.item_id = item.id");
 
                     if ($item_list_q->num_rows > 0) {
                         while ($row = $item_list_q->fetch_assoc()) {
@@ -95,7 +95,7 @@
                             $inventory_quantity = $row['quantity'];
                             ?>
 
-                            <tr>
+                            <tr class="content">
                                 <td class="col-md-3" >
                                     <div class="row">
                                         <div class="col-sm-4">
@@ -128,30 +128,6 @@
             </table>
         </div>
 
-        <div class="container-fluid text-center" style='padding: 20px 0 50px 0' >
-            <nav>
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
 
         <div class="modal fade" id="add_stock_modal" role="dialog" style="padding-top: 15%;">
             <div class="modal-dialog" >
@@ -179,11 +155,73 @@
 
             </div>
         </div>
+
+        <nav class="text-center">
+            <ul class="pagination">
+                <li class="pag_prev">
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="pag_next">
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </body>
 
     <script>
 
-     
+        //Pagination
+        pageSize = 4;
+        pagesCount = $(".content").length;
+        var currentPage = 1;
+
+        var nav = '';
+        var totalPages = Math.ceil(pagesCount / pageSize);
+        for (var s = 0; s < totalPages; s++) {
+            nav += '<li class="numeros"><a href="#">' + (s + 1) + '</a></li>';
+        }
+        $(".pag_prev").after(nav);
+        $(".numeros").first().addClass("active");
+
+        showPage = function () {
+            $(".content").hide().each(function (n) {
+                if (n >= pageSize * (currentPage - 1) && n < pageSize * currentPage)
+                    $(this).show();
+            });
+        };
+        showPage();
+
+
+        $(".pagination li.numeros").click(function () {
+            $(".pagination li").removeClass("active");
+            $(this).addClass("active");
+            currentPage = parseInt($(this).text());
+            showPage();
+        });
+
+        $(".pagination li.pag_prev").click(function () {
+            if ($(this).next().is('.active'))
+                return;
+            $('.numeros.active').removeClass('active').prev().addClass('active');
+            currentPage = currentPage > 1 ? (currentPage - 1) : 1;
+            showPage();
+        });
+
+        $(".pagination li.pag_next").click(function () {
+            if ($(this).prev().is('.active'))
+                return;
+            $('.numeros.active').removeClass('active').next().addClass('active');
+            currentPage = currentPage < totalPages ? (currentPage + 1) : totalPages;
+            showPage();
+        });
+
+        //--- END PAGINATION ---//
+
+
         $(document).on("click", ".add-stock", function () {
             var id = $(this).data('id');
             var stock = $(this).data('stock');

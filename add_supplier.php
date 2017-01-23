@@ -2,7 +2,7 @@
 
 session_start();
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+ require_once 'config.php';
 
 $company_name = $_POST['company_name'];
 $fname = $_POST['fname'];

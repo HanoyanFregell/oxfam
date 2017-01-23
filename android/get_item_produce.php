@@ -1,6 +1,6 @@
 <?php
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
 $id = filter_input(INPUT_GET, "id");
 $description = "";

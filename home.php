@@ -3,25 +3,21 @@
     <head>
         <title>Oxfam</title>
 
-
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-custom-home.css" rel="stylesheet" type="text/css"/>
-        <link href="css2/mdb.min.css" rel="stylesheet" type="text/css"/>
-        <link rel="shortcut icon" type="image/png" href="resources/Oxfam_Circle_Green-min.png"/>
-       
+        <link href="css/mdb.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.0.0.min.js" type="text/javascript"></script>   
+        <script src="js/mdb.min.js" type="text/javascript"></script>
+        <link rel="shortcut icon" type="image/png" href="images/women's-market-logo.png"/>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
 
-      <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>-->   
-        
-        <script src="js2/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js2/jquery.min.js" type="text/javascript"></script>
-        <script src="js2/mdb.min.js" type="text/javascript"></script>
+
         <?php
         session_start();
-
-        $mysql = new mysqli("localhost", "root", "", "oxfam");
-
+        if (!isset($_SESSION['id'])) {
+            header("Location: index.php");
+        }
+        require_once 'config.php';
 
         $new_orders = 0;
         $pending_orders = 0;
@@ -46,25 +42,21 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <img src="resources/Oxfam_Circle_Green-min.png" class="symbol" />
+                    <img src="images/women's-market-logo.png" class="symbol" />
                 </div>
 
                 <ul class="nav navbar-nav ">
                     <li class="active" ><a href="home.php">DASHBOARD</a></li>
-             <!--    <li><a href="orders.php" >ORDERS</a></li>-->    
+                    <li><a href="orders.php" >ORDERS</a></li>
                     <li><a href="inventory.php"  >INVENTORY</a></li> 
-                   <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
+                    <li><a href="suppliers.php"  >SUPPLIERS</a></li> 
                     <li><a href="reports.php"  >REPORTS</a></li> 
                 </ul>
 
-
-
-                <form class="navbar-form navbar-right">
-                    <div class="input-group has-feedback search-bar-wrapper">
-                        <input type="text" class="form-control search-bar" placeholder="Search">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="profile.php"><span class="glyphicon glyphicon-user"></span></a></li>
+                    <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span></a></a></li>
+                </ul>
 
             </div>
         </nav>
@@ -89,17 +81,17 @@
 
         <div class="container-fluid"  >
             <div class="row order-list-wrapper" >
-
                 <div class="col-sm-7" >
                     <div class="container-fluid order-list-top">
                         <div class="col-sm-5  ">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Not Proccesed
-                                    <span class="caret"></span></button>
+
+                                <button class="order-list-btn btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Orders
+                                </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Processed</a></li>
-                                    <li><a href="#">Delivered</a></li>
-                                    <li><a href="#">Returned</a></li>
+                                    <li ><a>Not Processed</a></li>
+                                    <li ><a >Processed</a></li>
+                                    <li><a >Returned</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -113,11 +105,15 @@
                     <div class="list-group order-list" id="order-list">
                         <?php
                         $name = "";
+                        $status = "0";
                         $address = "";
-                        $status = "";
                         $order_id = 0;
 
-                        $order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.id where orders.status = 0 limit 5;");
+                        if (isset($_GET['status'])) {
+                            $status = $_GET['status'];
+                        }
+
+                        $order_list_q = $mysql->query("select orders.id,customer.fname , customer.lname,customer.address, orders.status from customer left join orders on orders.customer_id = customer.user_id where orders.status = $status limit 5;");
                         if ($order_list_q->num_rows > 0) {
                             while ($row = $order_list_q->fetch_assoc()) {
                                 $order_id = $row['id'];
@@ -190,10 +186,10 @@
                         ?>
                     </div>
                     <div class="container-fluid text-center  center-block" style="padding: 50px 0 50px 0;">
-                        <button type="submit" id="show-more" class="btn btn-default more-order-list-item ">
+                        <button type="submit" id="show-more" class="btn btn-default more-order-list-item hidden ">
                             SHOW MORE ORDERS
                         </button>
-                        <p class="lead text-muted" id="no-more">
+                        <p class="lead text-muted" id="no-more hidden">
                             NO MORE ORDERS TO SHOW
                         </p>
                     </div>
@@ -314,9 +310,34 @@
     <script>
 
         window.onload = function () {
-            $("#no-more").hide();
             checkorders();
+
+            var url_status = /status=([^&]+)/.exec(window.location.href)[1];
+            var status = url_status ? url_status : 'status';
+            if (status === "0") {
+                $(".order-list-btn:first-child").text("Not Processed");
+            } else if (status === "1") {
+                $(".order-list-btn:first-child").text("Processed");
+            } else if (status === "3") {
+                $(".order-list-btn:first-child").text("Returned");
+            }
         };
+
+
+
+        $(".dropdown-menu").on('click', 'li a', function () {
+            $(".order-list-btn:first-child").text($(this).text());
+            var sel = $(this).text();
+
+            if (sel === "Not Processed") {
+                window.location.replace("home.php?status=0");
+            } else if (sel === "Processed") {
+                window.location.replace("home.php?status=1");
+            } else if (sel === "Returned") {
+                window.location.replace("home.php?status=3");
+            }
+        });
+
 
         function checkorders() {
             var max = document.getElementById("order-list").getElementsByTagName("a").length;
@@ -330,6 +351,10 @@
                     if (response === 0) {
                         $("#show-more").hide();
                         $("#no-more").show();
+
+                    } else {
+                        $("#no-more").hide();
+                        $("#show-more").show();
                     }
                 },
                 error: function (thrownError) {

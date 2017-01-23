@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+ require_once 'config.php';
 
 $supplier = "";
 $supplier .= '<div class = "row supplier-list-item-wrapper" style="display: none;">';

@@ -1,5 +1,5 @@
 <?php
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
 $order_id = filter_input(INPUT_GET, "order_id");
 $item_id = filter_input(INPUT_GET, "item_id");

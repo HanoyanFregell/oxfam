@@ -1,6 +1,6 @@
 <?php
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
  
 $email = filter_input(INPUT_GET, "email");

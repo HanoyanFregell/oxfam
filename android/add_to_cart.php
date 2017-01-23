@@ -1,6 +1,5 @@
 <?php
-$mysql = new mysqli("localhost", "root", "", "oxfam");
-
+require_once 'config.php';
 $user_id = filter_input(INPUT_GET, "user_id");
 $item_id = filter_input(INPUT_GET, "item_id");
 

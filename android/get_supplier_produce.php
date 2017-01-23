@@ -1,7 +1,7 @@
 <?php
 
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
 $produce_list = [];
 $supplier_id = filter_input(INPUT_GET, "id");

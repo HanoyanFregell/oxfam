@@ -1,7 +1,11 @@
 <?php
+$mysql = new mysqli("womensmarket.biz", "womensma_root", "042895Ced!", "womensma_store");
 
-if (isset($_POST['name'])) {
-    echo "<script>alert('TEST')</script>";
-} else {
-    echo "<script>alert('Nah')</script>";
+if (!$mysql) {
+    die('Could not connect: ' . mysql_error());
+}else{
+    echo 'Connected successfully';
 }
+
+
+

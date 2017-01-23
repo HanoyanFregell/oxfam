@@ -1,7 +1,7 @@
 <?php
 
 
-$mysql = new mysqli("localhost", "root", "", "oxfam");
+require_once 'config.php';
 
 $supplier_list = [];
 $id= "";
